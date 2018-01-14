@@ -36,4 +36,18 @@ Route::group(['middleware' => 'auth:api'], function(){
         Route::put('{id}', 'ProductController@updateProduct');
         Route::delete('{id}', 'ProductController@removeProduct');
     });
+
+    Route::prefix('client')->group(function(){
+        Route::get('', 'ClientController@getAll');
+        Route::get('{id}', 'ClientController@getById');
+        Route::put('{id}', 'ClientController@update');
+    });
+
+    Route::prefix('brand')->group(function (){
+        Route::get('', 'BrandController@getAll');
+        Route::get('{id}', 'BrandController@getById');
+        Route::put('{id}', 'BrandController@update');
+        Route::post('', 'BrandController@create');
+        Route::delete('{id}', 'BrandController@delete');
+    });
 });

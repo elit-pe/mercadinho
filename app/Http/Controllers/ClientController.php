@@ -7,79 +7,28 @@ use App\Client;
 
 class ClientController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    
+    public function getAll()
     {
-        //
+        return Client::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    
+    public function getById($id)
     {
-        //
+        $client = Client::findOrFail($id);
+
+        return $this->responseSuccess($client);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function update(Request $request, $id)
     {
-        //
+        $client = Client::findOrFail($id);
+
+        $client->fill($request->all());
+        $client->save();
+
+        return $this->responseSuccess($client);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Brands  $brands
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Brands $brands)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Brands  $brands
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Brands $brands)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Brands  $brands
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Brands $brands)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Brands  $brands
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Brands $brands)
-    {
-        //
-    }
 }

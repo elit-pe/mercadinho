@@ -2,84 +2,58 @@
 
 namespace App\Http\Controllers;
 
-use App\Brands;
+use App\Brand;
 use Illuminate\Http\Request;
 
 class BrandController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function getAll()
     {
-        //
+        return Brand::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function getById($id)
     {
-        //
+        $brand = Brand::findOrFail($id);
+
+        return $this->responseSuccess($brand);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function update(Request $request, $id)
     {
-        //
+        $brand = Brand::findOrFail($id);
+
+        $brand->fill($request->all());
+
+        return $this->responseSuccess($brand);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Brands  $brands
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Brands $brands)
+    public function create(Request $request)
     {
-        //
+        $validator = Validator::make([
+            'name' => 'required',
+            'description' => 'required'
+        ]);
+
+        if($validator->fails())
+        {
+            return $this->responseError(['error' => $validator->erros()]);
+        }
+
+        $input = $request->all();
+        $brand = new Brand();
+        $brand->fill($input);
+        $brand = Brand::create($brand);
+
+        return $this->responseSuccess($brand);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Brands  $brands
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Brands $brands)
+    public function delete($id)
     {
-        //
-    }
+        $brand = Brand::findOrFail($id);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Brands  $brands
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Brands $brands)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Brands  $brands
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Brands $brands)
-    {
-        //
+        $brand->delete();
+        return $this->responseSuccess(['success'=> 'brand removed']);
     }
 }
