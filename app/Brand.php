@@ -9,7 +9,7 @@ class Brand extends Model
     
     protected $fillable = ['name','description'];
 
-    protected $guard = ['updated_at','created_at'];
+    protected $hidden = ['updated_at','created_at'];
 
     public function products()
     {

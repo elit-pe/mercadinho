@@ -50,4 +50,12 @@ Route::group(['middleware' => 'auth:api'], function(){
         Route::post('', 'BrandController@create');
         Route::delete('{id}', 'BrandController@delete');
     });
+
+    Route::prefix('owner')->group(function (){
+        Route::get('', 'OwnerController@getAll');
+        Route::get('{id}', 'OwnerController@getById');
+        Route::put('{id}', 'OwnerController@update');
+        Route::post('', 'OwnerController@create');
+        Route::delete('{id}', 'OwnerController@delete');
+    });
 });

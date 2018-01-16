@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Brand;
 use Illuminate\Http\Request;
+use Validator;
 
 class BrandController extends Controller
 {
@@ -25,15 +26,16 @@ class BrandController extends Controller
         $brand = Brand::findOrFail($id);
 
         $brand->fill($request->all());
+        $brand->save();
 
         return $this->responseSuccess($brand);
     }
 
     public function create(Request $request)
     {
-        $validator = Validator::make([
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'description' => 'required'
+            'description' => 'required',
         ]);
 
         if($validator->fails())
@@ -44,7 +46,7 @@ class BrandController extends Controller
         $input = $request->all();
         $brand = new Brand();
         $brand->fill($input);
-        $brand = Brand::create($brand);
+        $brand->save();
 
         return $this->responseSuccess($brand);
     }

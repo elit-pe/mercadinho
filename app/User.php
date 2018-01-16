@@ -32,4 +32,9 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Client');
     }
+
+    public function owner()
+    {
+        return $this->hasOne('App\Owner');
+    }
 }

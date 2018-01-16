@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Client;
+use App\Owner;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 
@@ -30,11 +31,10 @@ class PassportController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'surname' => 'required',
-            'birthdate' => 'required|date',
             'email' => 'required|email',
             'password' => 'required',
-            'c_password' => 'required|same:password'
+            'c_password' => 'required|same:password',
+            'type' => 'required'
         ]);
 
         if($validator->fails())
@@ -46,9 +46,16 @@ class PassportController extends Controller
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
 
-        $client = new Client();
-        $client->fill($input);
-        $user->client()->save($client);
+        if($input['type'] == 1)
+        {
+            $client = new Client();
+            $client->fill($input);
+            $user->client()->save($client);
+        }else if($input['type'] == 2) {
+            $owner = new Owner();
+            $owner->fill($input);
+            $user->client()->save($owner);
+        }
 
         $success['token'] = $user->createToken('mercadinho')->accessToken;
         $success['name'] = $user->name;
