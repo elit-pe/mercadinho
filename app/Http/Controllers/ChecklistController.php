@@ -4,82 +4,61 @@ namespace App\Http\Controllers;
 
 use App\Checklist;
 use Illuminate\Http\Request;
+use Validator;
 
 class ChecklistController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function getAll()
     {
-        //
+        return Checklist::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function getById($id)
     {
-        //
+        $checklist = new Checklist();
+        $checklist = $checklist->with('user')->find($id);
+
+        if(empty($checklist))
+        {
+            return $this->responseNotFound();
+        }
+
+        return $this->responseSuccess($checklist);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function create(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'product_id' => 'required',
+        ]);
+
+        if($validator->fails())
+        {
+            return response()->json(['error' => $validator->errors()], 500);
+        }
+
+        $checklist = new Checklist();
+        $checklist->fill($request->all());
+        $checklist->save();
+        return $this->responseSuccess($checklist);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Checklist  $checklist
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Checklist $checklist)
+    public function update(Request $request, $id)
     {
-        //
+        $checklist = Checklist::findOrFail($id);
+
+        $checklist->fill($request->all());
+        $checklist->save();
+
+        return $this->responseSuccess($checklist);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Checklist  $checklist
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Checklist $checklist)
+    public function delete($id)
     {
-        //
+        $checklist = Checklist::findOrFail($id);
+        $checklist->delete();
+
+        return $this->responseSuccess(['Success' => 'Checklist removed']);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Checklist  $checklist
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Checklist $checklist)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Checklist  $checklist
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Checklist $checklist)
-    {
-        //
-    }
 }

@@ -58,4 +58,12 @@ Route::group(['middleware' => 'auth:api'], function(){
         Route::post('', 'OwnerController@create');
         Route::delete('{id}', 'OwnerController@delete');
     });
+
+    Route::prefix('checklist')->group(function (){
+        Route::get('', 'ChecklistController@getAll');
+        Route::get('{id}', 'ChecklistController@getById');
+        Route::put('{id}', 'ChecklistController@update');
+        Route::post('', 'ChecklistController@create');
+        Route::delete('{id}', 'ChecklistController@delete');
+    });
 });
