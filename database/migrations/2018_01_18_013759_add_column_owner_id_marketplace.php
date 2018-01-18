@@ -14,7 +14,7 @@ class AddColumnOwnerIdMarketplace extends Migration
     public function up()
     {
         Schema::table('marketplaces', function($table) {
-            $table->integer('owner_id')->after('id')->unsiged();
+            $table->integer('owner_id')->after('id')->unsigned();
             $table->foreign('owner_id')->references('id')->on('owners');
             $table->boolean('active')->after('name')->default(true);
         });
