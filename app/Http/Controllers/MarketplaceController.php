@@ -15,13 +15,10 @@ class MarketplaceController extends Controller
 
     public function getMarketplace($id)
     {
-        $marketplace = Marketplace::find($id);
-        if(empty($marketplace))
-        {
-            return response()->json(['error' => 'Not Found'], 404);
-        }
+        $marketplace = Marketplace::findOrFail($id);
 
-        return response()->json([$marketplace], 200);
+        return $this->responseSuccess($marketplace);
+
     }
     
     public function addMarketplace(Request $request)
@@ -32,12 +29,15 @@ class MarketplaceController extends Controller
 
         if($validator->fails())
         {
-            return response()->json(['error' => $validator->errors()], 500);
+            return $this->responseError(['error' => $validator->errors()]);
         }
 
-        $marketplace = Marketplace::create($request->all());
+        $marketplace = new Marketplace();
+        $marketplace->fill($request->all());
+        $marketplace->save();
 
-        return response()->json($marketplace, 200);
+        $this->responseSuccess($marketplace);
+
     }
 
     public function updateMarketplace(Request $request, $id)
@@ -48,33 +48,24 @@ class MarketplaceController extends Controller
 
         if($validator->fails())
         {
-            return response()->json(['error' => $validator->errors()], 500);
+            $this->responseError(['error' => $validator->errors()]);
         }
 
-        $marketplace = Marketplace::find($id);
+        $marketplace = Marketplace::findOrFail($id);
 
-        if(empty($marketplace))
-        {
-            return response()->json(['error' => 'Not Found'], 404);
-        }
 
         $request['id'] = $id;
         $marketplace->fill($request->all());
         $marketplace->save();
 
-        return response()->json($marketplace, 200);
+        return $this->responseSuccess($marketplace);
     }
 
     public function removeMarketplace($id)
     {
-        $marketplace = Marketplace::find($id);
-
-        if(empty($marketplace))
-        {
-            return response()->json(['error' => 'Not Found'], 404);
-        }
+        $marketplace = Marketplace::findOrFail($id);
 
         $marketplace->delete();
-        return response()->json(['success' => true],200);
+        $this->responseSuccess(['The markertplace was removed' => true]);
     }
 }
