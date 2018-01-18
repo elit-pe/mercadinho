@@ -14,4 +14,9 @@ class Owner extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    public function marketplaces()
+    {
+        return $this->hasMany('App\Marketplace');
+    }
 }

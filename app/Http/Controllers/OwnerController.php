@@ -16,7 +16,7 @@ class OwnerController extends Controller
     public function getById($id)
     {
         $owner = new Owner();
-        $owner = $owner->with('user')->find($id);
+        $owner = $owner->find($id);
 
         if(empty($owner))
         {
@@ -34,6 +34,13 @@ class OwnerController extends Controller
         $owner->save();
 
         return $this->responseSuccess($owner);
+    }
+
+    public function getAllMarketplace($id)
+    {
+        $owner = Owner::findOrFail($id);
+        return $this->responseSuccess($owner->marketplaces);
+
     }
 
 }

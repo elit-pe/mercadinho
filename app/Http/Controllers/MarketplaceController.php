@@ -15,7 +15,7 @@ class MarketplaceController extends Controller
 
     public function getMarketplace($id)
     {
-        $marketplace = Marketplace::findOrFail($id);
+        $marketplace = Marketplace::with('owner')->findOrFail($id);
 
         return $this->responseSuccess($marketplace);
 
@@ -25,6 +25,7 @@ class MarketplaceController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
+            'owner_id' => 'required'
         ]);
 
         if($validator->fails())
@@ -36,14 +37,15 @@ class MarketplaceController extends Controller
         $marketplace->fill($request->all());
         $marketplace->save();
 
-        $this->responseSuccess($marketplace);
+        return $this->responseSuccess($marketplace);
 
     }
 
     public function updateMarketplace(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required'
+            'name' => 'required',
+            'owner_id' => 'required'
         ]);
 
         if($validator->fails())
@@ -66,6 +68,6 @@ class MarketplaceController extends Controller
         $marketplace = Marketplace::findOrFail($id);
 
         $marketplace->delete();
-        $this->responseSuccess(['The markertplace was removed' => true]);
+        return $this->responseSuccess(['success' => true]);
     }
 }

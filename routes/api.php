@@ -55,8 +55,7 @@ Route::group(['middleware' => 'auth:api'], function(){
         Route::get('', 'OwnerController@getAll');
         Route::get('{id}', 'OwnerController@getById');
         Route::put('{id}', 'OwnerController@update');
-        Route::post('', 'OwnerController@create');
-        Route::delete('{id}', 'OwnerController@delete');
+        Route::get('{id}/marketplace', 'OwnerController@getAllMarketplace');
     });
 
     Route::prefix('checklist')->group(function (){
