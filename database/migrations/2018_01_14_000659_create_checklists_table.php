@@ -30,6 +30,10 @@ class CreateChecklistsTable extends Migration
      */
     public function down()
     {
+        Schema::table('role_user', function (Blueprint $table) {
+            $table->dropForeign(['client_id']);
+            $table->dropForeign(['product_id']);
+        });
         Schema::dropIfExists('checklists');
     }
 }

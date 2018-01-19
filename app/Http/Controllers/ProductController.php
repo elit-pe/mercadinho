@@ -31,6 +31,7 @@ class ProductController extends Controller
             'name' => 'required',
             'price' => 'required',
             'description' => 'required',
+            'product_id' => 'required'
         ]);
 
         if($validator->fails())
@@ -38,7 +39,9 @@ class ProductController extends Controller
             $this->responseError(['error' => $validator->errors()]);
         }
 
-        $product = Product::create($request->all());
+        $product = new Product();
+        $product->fill($request->all());
+        $product->save();
 
         return $this->responseSuccess($product);
     }

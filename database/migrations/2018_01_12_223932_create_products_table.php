@@ -30,6 +30,9 @@ class CreateProductsTable extends Migration
      */
     public function down()
     {
+        Schema::table('checklist', function (Blueprint $table) {
+            $table->dropForeign(['product_id']);
+        });
         Schema::dropIfExists('products');
     }
 }

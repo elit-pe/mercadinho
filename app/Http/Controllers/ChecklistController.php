@@ -29,6 +29,7 @@ class ChecklistController extends Controller
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(),[
+            'name' => 'required',
             'product_id' => 'required',
         ]);
 
@@ -39,6 +40,7 @@ class ChecklistController extends Controller
 
         $checklist = new Checklist();
         $checklist->fill($request->all());
+        $checklist->client_id = $request->user()->client->id;
         $checklist->save();
         return $this->responseSuccess($checklist);
     }

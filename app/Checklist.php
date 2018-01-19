@@ -14,4 +14,9 @@ class Checklist extends Model
     {
         return $this->hasOne('App\Product');
     }
+
+    public function client()
+    {
+        return $this->belongsTo('App\Client');
+    }
 }
