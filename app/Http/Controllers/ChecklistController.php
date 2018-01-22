@@ -16,7 +16,7 @@ class ChecklistController extends Controller
     public function getById($id)
     {
         $checklist = new Checklist();
-        $checklist = $checklist->with('user')->find($id);
+        $checklist = $checklist->find($id);
 
         if(empty($checklist))
         {
@@ -30,7 +30,6 @@ class ChecklistController extends Controller
     {
         $validator = Validator::make($request->all(),[
             'name' => 'required',
-            'product_id' => 'required',
         ]);
 
         if($validator->fails())
@@ -61,6 +60,43 @@ class ChecklistController extends Controller
         $checklist->delete();
 
         return $this->responseSuccess(['Success' => 'Checklist removed']);
+    }
+
+    public function getProductsChecklist($id)
+    {
+        $checklist = Checklist::find($id)->products()->get();
+
+        return $this->responseSuccess($checklist);
+    }
+
+    public function addProduct(Request $request, $id)
+    {
+        $ids = $request->all();
+        $checklist = Checklist::findOrFail($id);
+
+        if(!is_array($ids))
+        {
+            return $this->responseError(['error' => 'ids inválidos']);
+        }
+
+        $checklist->products()->attach($ids);
+
+        return $this->responseSuccess(['Success' => 'Products added']);
+    }
+
+    public function removeProduct(Request $request, $id)
+    {
+        $ids = $request->all();
+        $checklist = Checklist::findOrFail($id);
+
+        if(!is_array($ids))
+        {
+            return $this->responseError(['error' => 'ids inválidos']);
+        }
+
+        $checklist->products()->detach($ids);
+
+        return $this->responseSuccess(['Success' => 'Products removed']);
     }
 
 }

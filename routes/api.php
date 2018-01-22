@@ -61,8 +61,11 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::prefix('checklist')->group(function (){
         Route::get('', 'ChecklistController@getAll');
         Route::get('{id}', 'ChecklistController@getById');
+        Route::get('{id}/products', 'ChecklistController@getProductsChecklist');
         Route::put('{id}', 'ChecklistController@update');
         Route::post('', 'ChecklistController@create');
+        Route::post('{id}/products', 'ChecklistController@addProduct');
         Route::delete('{id}', 'ChecklistController@delete');
+        Route::delete('{id}/products', 'ChecklistController@removeProduct');
     });
 });

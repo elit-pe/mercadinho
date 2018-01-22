@@ -41,6 +41,7 @@ class ProductController extends Controller
 
         $product = new Product();
         $product->fill($request->all());
+        $product->user_id = $request->user()->id;
         $product->save();
 
         return $this->responseSuccess($product);

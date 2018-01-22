@@ -15,7 +15,7 @@ class AddCollumnApelidoEPublicChecklist extends Migration
     {
         Schema::table('checklists', function($table) {
             $table->string('name')->after('product_id');
-            $table->boolean('public')->before('created_at')->default(false);
+            $table->boolean('public')->after('name')->default(false);
         });
     }
 

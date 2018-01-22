@@ -15,10 +15,7 @@ class CreateChecklistsTable extends Migration
     {
         Schema::create('checklists', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('product_id')->unsigned();
             $table->string('observation')->default('');
-            $table->double('max_price',8,2)->default(null);
-            $table->double('min_price',8,2)->default(null);
             $table->timestamps();
         });
     }
