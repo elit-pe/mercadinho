@@ -126,7 +126,8 @@ return [
             'query' => [
                 'user' => App\GraphQL\Query\UserQuery::class,
                 'products' => App\GraphQL\Query\ProductsQuery::class,
-                'brands' => App\GraphQL\Query\BrandsQuery::class
+                'brands' => App\GraphQL\Query\BrandsQuery::class,
+                'owners' => App\GraphQL\Query\OwnersQuery::class
             ],
             'mutation' => [
                 'createUser' => App\GraphQL\Mutation\CreateUserMutation::class
@@ -186,6 +187,7 @@ return [
         App\GraphQL\Type\UserType::class,
         App\GraphQL\Type\ProductType::class,
         App\GraphQL\Type\BrandType::class,
+        App\GraphQL\Type\OwnerType::class,
     ],
 
     /*

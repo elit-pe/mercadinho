@@ -40,10 +40,22 @@ class ProductType extends BaseType
                     'id' => [
                         'type' => Type::id(),
                         'description' => 'Id of the brand'
-                    ],
+                    ]
                 ],
                 'type' => GraphQL::type('Brand')
             ]
         ];
+    }
+
+    public function resolveBrandField($root, $args)
+    {
+        if(isset($args['id']))
+        {
+            return $root->brand->find($args['id']);
+            
+        }
+
+        $brand = $root->brand;
+        return $brand;
     }
 }
