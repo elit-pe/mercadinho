@@ -24,7 +24,7 @@ class AddressQuery extends Query
     {
         return [
             'postal_code' => [
-                'type' => Type::nonNull(Type::string())
+                'type' => Type::string()
             ],
             'street' => [
                 'type' => Type::string()
