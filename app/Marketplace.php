@@ -16,4 +16,9 @@ class Marketplace extends Model
     {
         return $this->belongsTo('App\Owner');
     }
+
+    public function addresses()
+    {
+        return $this->belongsToMany('App\Address', 'address_marketplace', 'marketplace_id', 'postal_code');
+    }
 }

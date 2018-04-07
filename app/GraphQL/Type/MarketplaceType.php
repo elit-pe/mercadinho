@@ -5,6 +5,7 @@ namespace App\GraphQL\Type;
 use GraphQL\Type\Definition\Type;
 use Folklore\GraphQL\Support\Type as BaseType;
 use GraphQL;
+use App\Address;
 
 class MarketplaceType extends BaseType
 {
@@ -38,6 +39,9 @@ class MarketplaceType extends BaseType
                     ],
                 ],
                 'type' => GraphQL::type('Owner')
+            ],
+            'address' => [
+                'type' => GraphQL::type('Address')
             ]
         ];
     }
@@ -50,5 +54,17 @@ class MarketplaceType extends BaseType
         }
 
         return $root->owner;
+    }
+
+    public function resolveAddressField($root, $args)
+    {
+        $all = $root->Addresses;
+        if(!empty($all))
+        {
+            foreach ($all as $value) {
+                return $value;
+            }
+        }
+        return null;
     }
 }

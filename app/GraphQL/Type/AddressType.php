@@ -38,12 +38,10 @@ class AddressType extends BaseType
                 'type' =>  Type::nonNull(Type::string())
             ],
             'user' => [
-                'args' => [
-                    'id' => [
-                        'type' => Type::id()
-                    ],
-                ],
                 'type' => GraphQL::type('User')
+            ],
+            'marketplace' => [
+                'type' => Type::listOf(GraphQL::type('Marketplace'))
             ]
         ];
     }
@@ -51,16 +49,28 @@ class AddressType extends BaseType
     public function resolveUserField($root, $args)
     {
         $all = $root->Users;
-        
+        $retorno = null;
         if(!empty($all))
         {
+            $retorno = array();
             foreach ($all as $value) {
-                
-                return $value;
-                
+                $retorno[] = $value;
             }
         }
+        return $retorno;
+    }
 
-        return null;
+    public function resolveMarketplaceField($root, $args)
+    {
+        $all = $root->MarketPlaces;
+        $retorno = null;
+        if(!empty($all))
+        {
+            $retorno = array();
+            foreach ($all as $value) {
+                $retorno[] = $value;
+            }
+        }
+        return $retorno;
     }
 }
