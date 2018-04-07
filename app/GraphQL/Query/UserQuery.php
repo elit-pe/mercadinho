@@ -11,7 +11,7 @@ use App\User;
 class UserQuery extends Query
 {
     protected $attributes = [
-        'name' => 'User',
+        'name' => 'Users',
         'description' => 'User query'
     ];
 

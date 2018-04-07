@@ -124,12 +124,14 @@ return [
     'schemas' => [
         'default' => [
             'query' => [
-                'user' => App\GraphQL\Query\UserQuery::class,
+                'users' => App\GraphQL\Query\UserQuery::class,
                 'products' => App\GraphQL\Query\ProductsQuery::class,
                 'brands' => App\GraphQL\Query\BrandsQuery::class,
                 'owners' => App\GraphQL\Query\OwnersQuery::class,
                 'marketplaces' => App\GraphQL\Query\MarketplacesQuery::class,
-                'addresses' => App\GraphQL\Query\AddressQuery::class
+                'addresses' => App\GraphQL\Query\AddressQuery::class,
+                'cards' => App\GraphQL\Query\CardsQuery::class,
+                'clients' => App\GraphQL\Query\ClientsQuery::class,
             ],
             'mutation' => [
                 'createUser' => App\GraphQL\Mutation\CreateUserMutation::class
@@ -192,6 +194,8 @@ return [
         App\GraphQL\Type\OwnerType::class,
         App\GraphQL\Type\MarketplaceType::class,
         App\GraphQL\Type\AddressType::class,
+        App\GraphQL\Type\CardType::class,
+        App\GraphQL\Type\ClientType::class,
     ],
 
     /*
