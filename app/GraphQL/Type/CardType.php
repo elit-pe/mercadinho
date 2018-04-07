@@ -27,7 +27,15 @@ class CardType extends BaseType
             ], 
             'type' => [
                 'type' => Type::nonNull(Type::string())
+            ],
+            'client' => [
+                'type' => GraphQL::type('Client')
             ]
         ];
+    }
+
+    public function resolveClientField($root, $args)
+    {
+        return $root->client;
     }
 }
